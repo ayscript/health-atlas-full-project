@@ -72,7 +72,7 @@ Top-level directories:
 Clone the repo:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/ayscript/health-atlas-full-project
 cd health-atlas-full-project
 ```
 
