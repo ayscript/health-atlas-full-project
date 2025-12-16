@@ -50,6 +50,11 @@ Important: The system prompt enforces strict domain rules (no diagnoses, no medi
 
 ---
 
+---
+## Chat UI
+![alt text](image.png)
+---
+
 ## Project Structure
 
 Top-level directories:
