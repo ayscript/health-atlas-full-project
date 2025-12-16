@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Health Atlas — Frontend
 
-## Getting Started
+AI-powered, multilingual UI for Health Atlas. Built with Next.js and designed to work with the project backend (FastAPI + Supabase) and the model service (Gradio/Transformers).
 
-First, run the development server:
+## ⭐ Key features
+
+- Chat UI with streaming responses (connects to a model `/chat_api` endpoint)
+- Login / Signup pages that integrate with the backend auth endpoints
+- Responsive design, voice recorder, and accessibility-focused components
+- Built with Next.js, Tailwind CSS and Radix UI primitives
+
+## Tech Stack
+
+- Next.js 16 (app router)
+- React 19
+- Tailwind CSS, Radix UI
+- Supabase (auth handled via backend)
+
+---
+
+## Getting started (local)
+
+### Prerequisites
+
+- Node.js 18+ and npm (or pnpm)
+
+### Install & run
 
 ```bash
+git clone https://github.com/ayscript/health-atlas-full-project
+cd health-atlas-frontend
+npm install    # or pnpm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build & start (production)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
+---
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Model backend URL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The frontend forwards chat messages to a model service via the server route `src/app/api/chat/route.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+By default the route contains a `backendUrl` constant — update that value to point to your running model service (e.g. `http://localhost:7860/chat_api`). Example location:
 
-## Deploy on Vercel
+```ts
+// file: src/app/api/chat/route.ts
+const backendUrl = "http://localhost:7860/chat_api";
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Tip: you can replace that constant with `process.env.NEXT_PUBLIC_MODEL_URL` and add the value to `.env.local` if you prefer env-driven config.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Supabase / Auth
+
+Auth is handled server-side by the FastAPI backend (`health-atlass-backend`). If you run your own Supabase project, set the backend environment variables there. The frontend does not require Supabase keys by default.
+
+---
+
+## How it works (brief)
+
+- The client builds a message list and POSTs to `/api/chat` (server route)
+- The server route prepends a system prompt and forwards the conversation to the model `/chat_api`
+- The model service streams the response back to the frontend, which updates the chat UI progressively
+
+---
+
+## Troubleshooting
+
+- If you see CORS or network errors when chatting, ensure the model service URL in `route.ts` is reachable and that the model server allows incoming requests from your origin.
+- If responses are empty or fail: confirm the model service is running (port 7860 by default) and that it returns a streaming text/plain response.
+
+---
+
