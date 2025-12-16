@@ -11,7 +11,7 @@
 
   <h1 align="center">Health Atlas</h1>
 
-  <a href="https://health-atlas-five.vercel.app/">Click Here For Live Link (https://health-atlas-five.vercel.app/)</a>
+  <a href="https://health-atlas-five.vercel.app/">Click Here For Live Link (https://health-atlas-five.vercel.app)</a>
 
   <p align="center">
     AI-powered multilingual health triage and primary-care assistant.
